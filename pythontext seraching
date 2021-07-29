@@ -1,0 +1,122 @@
+import PyPDF4
+columns=[VALUATION_DATE,SYS_CODE,COMPANY_CODE,STAT_ENTITY,LINE_OF_BUSINESS,POLICY_NO,BEN_SEQ,PARENT_BEN_SEQ,
+PHASE_CODE,SUB_PHASE_CODE,RECORD_TYPE,POLICY_STATUS,TERM_REASON,PLAN_CODE,ADMIN_PLAN_CODE,LM_PLAN_CODE,
+BEN_TYPE_CODE,PRODUCT_TYPE_CODE,SUPP_BEN_TYPE_CODE,STATEMENT_LOCATION,EXHIBIT_CODE,ANNUAL_STATEMENTLOB,
+DESCRIPTION,ISSUE_DATE,ALT_ISSUE_DATE,FIRST_YEAR_INDICATOR,PAID_TO_DATE,DISABLEMENT_DATE,TERM_DATE,INTEREST_RATE_FIELD,
+ISSUE_AGE,ATTAINED_AGE,DURATION,SEX_CODE,VANTAGE_PREMIUM_CLASS_CODE,RISK_CODE,CLASS_CODE,JL_STATUS,ISSUE_STATE,
+RESIDENT_STATE,UNITS,AMOUNT_ISSUED,AMOUNT_INFORCE,GBL_ULTIMATE_DB,BEN_CODE,BEN_PATTERN_CODE,PREM_CODE,
+ENDOW_PATTERN_CODE,LAPSE_FIELD1,EXPENSE_GROUP_FIELD1,EXPENSE_GROUP_FIELD2,GROSS_PREM_FIELD1,GROSS_PREM_FIELD2,
+BILLING_FORM_MODE,ADMIN_SYSTEM_MODE,PREMIUM_MODE,GROSS_ANNUAL_PREM,MODAL_PREMIUM,
+GROSS_ANNLZD_PREM,ADMINSYSTEM_CV,POLICY_LOAN,POLICY_LOAN_INTEREST,POLICY_LOAN_RATE,POLICY_LOAN_TYPE,
+BIRTH_DATE,ISSUE_STATE_ZIP_CODE,RESIDENT_STATE_ZIP_CODE,DIT_ADMIN_COMPANY_CODE,LIFE_ADMIN_COMPANY_CODE,
+ORIGINAL_ISSUE_AGE,ADMIN_ISSUE_AGE,ORIGINAL_ISSUE_DATE,ADMIN_ISSUE_DATE,DIT_LINE_OF_BUSINESS,MATURITY_EXPIRY_DATE,
+ADMIN_PAID_TO_DATE,ORIGINAL_POLICY_NO,DIT_POLICY_NUMBER,ADMIN_PREMIUM_MODE,TRANSLATED_PREMIUM_MODE,DIT_ADMIN_SYSTEM,
+VANTAGE_STATUS_CODE,ADMIN_UW_CLASS_CODE,ADMIN_RISK_CODE,MARKETING_SOURCE_CODE,INSURED_DIRECTORY_ID,ISSUE_YEAR,DIT_ISSUE_YEAR,
+EXPENSE_GROUP_FIELD3,EXPENSE_GROUP_FIELD4,LAPSE_FIELD2,LAPSE_FIELD3,
+LAPSE_ADJUSTMENT_FIELD1,LAPSE_ADJUSTMENT_FIELD2,SELECT_FACTOR_FIELD1,SELECT_FACTOR_FIELD2,SELECT_FACTOR_FIELD3,
+SELECT_FACTOR_FIELD4,MORTALITY_RATE_FIELD1,MORTALITY_RATE_FIELD2,MORTALITY_RATE_FIELD3,MORTALITY_RATE_FIELD4,
+X_FACTOR_FIELD2,OCC_CLASS_CODE,PUA_FACE,UNDWRTNG_CODE,REINS_PLAN_CODE,REINS_LM_PLAN_CODE,
+REINS_PREMIUM_MODE,AMT_REINS_AT_ISSUE,AMT_RETAINED_AT_ISS,CURRENT_AMT_AT_RISK,REINS_GROSS_ANNLZD_PREM,
+PAID_TO_DATE_00,RE_GROSS_PREM_FIELD1,RE_GROSS_PREM_FIELD2,MORTALITY_RATE_FIELD5,SELECT_FACTOR_FIELD5]
+
+Import the mandatory modules 
+import os
+import re
+import sys
+import argparse
+
+class Text_search :
+
+####layer 1
+
+def __init__(self, string2, path1,i=None):
+self.path1= path1
+self.string1 = string2
+self.i=i
+if self.i:
+string2 = string2.lower()
+self.string2= re.compile(string2)
+
+
+####layer 2
+
+def txt_search(self):
+file_number = 0
+files = [f for f in os.listdir(self.path1) if os.path.isfile(self.path1+”/”+f)]
+for file in files:
+file_t = open(self.path1+”/”+file)
+file_text= file_t.read()
+if self.i:
+file_text=file_text.lower()
+file_t.close()
+if re.search(self.string2, file_text):
+print “The text “+self.string1+” found in “, file
+ 
+file_number=file_number+1
+print “total files are “,file_number
+
+
+####layer 3
+
+def txt_search_m(self):
+files = [f for f in os.listdir(self.path1) if os.path.isfile(self.path1+"/"+f)]
+file_number = 0
+for file in files:
+file_t = open(self.path1+"/"+file)
+line_number=1
+flag_file = 0
+for line1 in file_t:
+if self.i:
+line1 = line1.lower()
+if re.search(self.string2, line1):
+flag_file= 1
+print "The text "+self.string1+" found in ", file, " at line number ",line_number
+line_number=line_number+1
+if flag_file == 1:
+file_number=file_number+1
+flag_file=0
+file_t.close() 
+print "total files are ",file_number
+
+
+
+####layer 4
+def txt_search_r(self):
+file_number = 0
+for root, dir, files in os.walk(self.path1, topdown = True):
+ 
+files = [f for f in files if os.path.isfile(root+”/”+f)]
+for file in files:
+file= root+”/”+file
+file_t = open(file)
+line_number=1
+flag_file = 0
+for line1 in file_t:
+if self.i:
+line1=line1.lower()
+ 
+if re.search(self.string2, line1):
+flag_file= 1
+print “The text “+self.string1+” found in “, file, “ at line number “,line_number
+line_number=line_number+1
+if flag_file == 1:
+file_number=file_number+1
+flag_file=0
+file_t.close() 
+ 
+print “total files are “,file_number
+
+
+####layer 5
+def main():
+parser = argparse.ArgumentParser(version=’1.0’)
+parser.add_argument(‘-m’, nargs = 2, help = ‘To get files as well as line number of files ‘)
+parser.add_argument(‘-s’, nargs = 2, help = ‘To get the files contain string ‘)
+parser.add_argument(‘-r’, nargs = 2, help = ‘To search in recusrive order ‘)
+parser.add_argument(‘-mi’, nargs = 2, help = ‘-m option with case insensitive ‘)
+parser.add_argument(‘-si’, nargs = 2, help = ‘-s option with case insensitive ‘)
+parser.add_argument(‘-ri’, nargs = 2, help = ‘-r option with case insensitive ‘)
+ 
+args = parser.parse_args()
+
+

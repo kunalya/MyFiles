@@ -1,0 +1,74 @@
+---
+title: "answerssheet"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#question 1
+OzoneIs=airquality$Ozone
+airquality$Ozone[is.na(airquality$Ozone)]<-0
+airquality$Ozone
+mean(airquality$Ozone)
+ 
+#question2
+
+x<-15
+y<-15
+if(x==y) {'True'  }else {'False'}
+
+# question 3
+
+testing_function <- function(x, y = 0){
+  if(y < 0) return(x)
+  if(is.character(x)) return(y) 
+  return(x * y)
+}
+testing_function(2,1)  
+testing_function(2,-1)  
+
+
+# question 4
+ x<-matrix(1:4,nrow=2)
+ x[2,2]<-1000 
+ x
+ 
+ # question 5
+z<-c(2,8,6,9)
+ summary(z)
+#question 6
+day <- "sat"
+if (day == "sat") {
+    print("It is Saturday!")
+}
+
+##question 7
+x<-c(1:50)
+x
+
+#question 8
+x <- -1
+
+if (x > 0) {
+  print("x is a positive value")
+}  else {
+  print("x is a negative value")
+}
+
+##question 9
+
+install.packages("dplyr")
+library(dplyr)
+## lsf.str("package:dplyr")
+filter(airquality, Day == 5)
+
+
+##question 10
+iris[1:2,3:4]
+
+
+```
+
